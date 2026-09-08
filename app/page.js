@@ -51,10 +51,13 @@ export default function Home() {
   const [active, setActive] = useState('home');
   const [typedText, setTypedText] = useState('builds with data.');
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const orbX = useSpring(useMotionValue(0), { stiffness: 120, damping: 18 });
   const orbY = useSpring(useMotionValue(0), { stiffness: 120, damping: 18 });
 
   useEffect(() => {
+    const touchQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+    setIsTouchDevice(touchQuery.matches);
     const saved = window.localStorage.getItem('raja-theme');
     if (saved) setDark(saved === 'dark');
     const sections = ['home', 'about', 'study', 'showcase', 'projects', 'contact'];
@@ -67,6 +70,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return undefined;
     const phrases = ['builds with data.', 'learns with purpose.', 'ships useful ideas.'];
     let phraseIndex = 0;
     let characterIndex = phrases[0].length;
@@ -129,10 +133,10 @@ export default function Home() {
             <Reveal delay={0.16}><p className="hero-text">Exploring the world of Data Analytics, Machine Learning, and AI through real-world projects. Passionate about turning complex data into actionable insights and continuously learning new technologies.</p></Reveal>
             <Reveal delay={0.22}><div className="hero-actions"><a className="primary-btn" href="#projects">Explore projects <ArrowUpRight /></a><a className="secondary-btn" href="/assets/RajaResumeDS.pdf" target="_blank">Resume <Download /></a></div></Reveal>
           </div>
-          <motion.div className="hero-orb" style={{ x: orbX, y: orbY }} animate={{ rotate: [0,2,0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }} onMouseMove={moveOrb}>
+          <motion.div className="hero-orb" style={{ x: orbX, y: orbY }} animate={isTouchDevice ? undefined : { rotate: [0,2,0] }} transition={isTouchDevice ? undefined : { duration: 7, repeat: Infinity, ease: 'easeInOut' }} onMouseMove={isTouchDevice ? undefined : moveOrb}>
             <div className="orb-core"><span>RB</span></div><div className="orb-ring ring-a" /><div className="orb-ring ring-b" /><div className="orb-ring ring-c" />
           </motion.div>
-          <motion.button className="scroll-cue" onClick={() => go('about')} animate={{ y:[0,8,0] }} transition={{duration:2,repeat:Infinity}}><span>Scroll to explore</span><ChevronDown /></motion.button>
+          <motion.button className="scroll-cue" onClick={() => go('about')} animate={isTouchDevice ? undefined : { y:[0,8,0] }} transition={isTouchDevice ? undefined : {duration:2,repeat:Infinity}}><span>Scroll to explore</span><ChevronDown /></motion.button>
         </section>
 
         <section id="about" className="section-pad">
