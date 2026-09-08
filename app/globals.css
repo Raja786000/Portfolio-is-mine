@@ -57,3 +57,23 @@ button:not(.scroll-cue):hover{border-color:var(--accent);box-shadow:0 0 22px col
 	.showcase-card:hover{border-color:var(--line)}
 	button,a{transition:none}
 }
+
+/* Keep fixed mobile controls and decorative layers inside the viewport. */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+main{width:100%;max-width:100%;overflow-x:clip}
+.content{min-width:0;max-width:100%}
+@media(max-width:1000px){
+	.mobile-header{box-sizing:border-box;width:100%;max-width:100%;padding-inline:clamp(12px,4vw,20px)}
+	.mobile-header .brand{min-width:0;flex:1 1 auto}
+	.mobile-header .brand>div{min-width:0}
+	.mobile-header .brand strong,.mobile-header .brand small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+	.mobile-actions{flex:0 0 auto;min-width:80px;justify-content:flex-end}
+	.mobile-actions .icon-btn{width:40px;height:40px;flex:0 0 40px;padding:0;display:grid;place-items:center}
+	.mobile-menu{left:clamp(8px,4vw,15px);right:clamp(8px,4vw,15px);max-width:calc(100% - 16px);box-sizing:border-box}
+}
+@media(max-width:360px){
+	.mobile-header .brand{gap:8px}
+	.mobile-header .brand>span{width:36px;height:36px;flex:0 0 36px}
+	.mobile-actions{min-width:76px;gap:4px}
+	.mobile-actions .icon-btn{width:36px;height:36px;flex-basis:36px}
+}
