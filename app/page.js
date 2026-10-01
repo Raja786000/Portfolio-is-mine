@@ -14,23 +14,55 @@ const studyTopics = [
   { name: 'Statistics', slug: 'statistics', icon: BrainCircuit, tag: 'Foundations', summary: 'The thinking behind confident conclusions from imperfect data.' },
 ];
 
-const showcase = [
-  { title: 'Modern UI', text: 'Clean futuristic interface design.', detail: 'I build visual systems with clear hierarchy, expressive type, and enough motion to make the interface feel alive.', number: '01', icon: Sparkles },
-  { title: 'Responsive', text: 'Fast layouts for every device.', detail: 'Every layout is shaped to stay useful on a phone, tablet, or wide screen without losing its personality.', number: '02', icon: BarChart3 },
-  { title: 'Animations', text: 'Smooth interactions and transitions.', detail: 'Motion is used as feedback: it guides attention, explains state, and gives important moments a little more presence.', number: '03', icon: BrainCircuit },
-  { title: 'Data Stories', text: 'Insights people can understand.', detail: 'I turn dense numbers into a visual narrative with the right context, contrast, and next step.', number: '04', icon: BarChart3 },
-  { title: 'Accessible', text: 'Interfaces made for more people.', detail: 'Clear states, keyboard-friendly controls, and readable structure make the experience easier to use.', number: '05', icon: Sparkles },
-  { title: 'Useful Detail', text: 'Small decisions with purpose.', detail: 'The best polish is quiet: helpful labels, considered spacing, and feedback exactly when it is needed.', number: '06', icon: Code2 },
-];
+const movieProject = {
+  title: 'Movie Recommender System',
+  text: 'Content-based movie recommendation system built with Python and Streamlit.',
+  description: 'An interactive content-based movie recommendation system built with Python and Streamlit.',
+  stack: 'Python • Pandas • Streamlit • TMDB API • Machine Learning',
+  tags: ['Python', 'Pandas', 'Streamlit', 'TMDB API', 'Machine Learning'],
+  accent: '01',
+  slug: 'movie-recommender',
+  github: 'https://github.com/Raja786000/movie_recommendation',
+  liveDemo: 'https://movierecommendation-dya5muadz9ne9yjcymj5rr.streamlit.app/',
+  projectType: 'Machine Learning / Data Science',
+  application: 'Interactive web application',
+  recommendation: 'Content-based',
+  overview: 'Choose a movie to see up to ten similar titles, with posters from TMDB.',
+  problem: 'With a large movie collection, choosing what to watch can take time. The app offers similar-movie suggestions based on a title the viewer already likes.',
+  solution: 'A Streamlit interface connects a movie selection to precomputed similarity data, then displays the closest recommendations with poster information from TMDB.',
+  howItWorks: [
+    'Select a movie in the Streamlit interface.',
+    'Find it in the prepared dataset and retrieve its similarity scores.',
+    'Sort the scores and select the top ten recommendations.',
+    'Use movie IDs to request poster details from TMDB.',
+    'Display the recommended titles and available posters.'
+  ],
+  features: [
+    'Movie selection',
+    'Content-based recommendations',
+    'Top ten recommendations',
+    'TMDB poster integration',
+    'Streamlit interface',
+    'Cached recommendation-data loading',
+    'Graceful handling of missing posters',
+    'Environment variable / Streamlit Secrets support'
+  ],
+  technologies: ['Python', 'Pandas', 'Streamlit', 'TMDB API', 'Requests', 'Pickle', 'Gzip', 'python-dotenv', 'Jupyter Notebook'],
+  process: [
+    { title: 'Data Preparation', text: 'Prepared the movie data and recommendation inputs in the notebook workflow.' },
+    { title: 'Recommendation Logic', text: 'Used a content-based approach with similarity scores for the selected movie.' },
+    { title: 'Similarity Data', text: 'Saved movie data and the compressed similarity matrix for the app to load.' },
+    { title: 'Streamlit Interface', text: 'Built a movie selector and a results view for the recommendations.' },
+    { title: 'TMDB Integration', text: 'Requested poster information using the recommended movies’ IDs.' },
+    { title: 'API Key Configuration', text: 'Read the TMDB key from environment variables or Streamlit Secrets.' },
+    { title: 'Deployment', text: 'Deployed the application with Streamlit Community Cloud.' }
+  ],
+  learned: 'This project gave me practice with recommendation-system concepts, Pandas data handling, precomputed similarity data, an interactive data application, REST API integration, secret configuration, and deploying a Python app with Streamlit.'
+};
 
-const projects = [
-  { title: 'Portfolio', text: 'Creative responsive portfolio website.', description: 'A personal portfolio shaped around data, motion, and an editorial visual language.', stack: 'Next.js • Framer Motion • CSS', href: '#home', accent: '01' },
-  { title: 'Movie Recommender', text: 'AI-powered movie recommendation system.', description: 'A recommendation experience that turns a few preferences into a thoughtful list of films to explore.', stack: 'Python • Machine Learning • Streamlit', href: 'https://github.com/Raja786000', accent: '02' },
-  { title: 'Weather App', text: 'Live weather forecasting application.', description: 'A focused weather dashboard with live conditions, useful summaries, and a calm visual rhythm.', stack: 'JavaScript • API • Responsive UI', href: 'https://github.com/Raja786000', accent: '03' },
-  { title: 'Sales Dashboard', text: 'Interactive business performance dashboard.', description: 'A decision-focused dashboard that surfaces sales trends, key metrics, and opportunities at a glance.', stack: 'Power BI • DAX • Data Modeling', href: 'https://github.com/Raja786000', accent: '04' },
-  { title: 'Customer Churn Predictor', text: 'Machine learning model for retention insights.', description: 'A predictive workflow that identifies churn signals and turns model output into practical retention ideas.', stack: 'Python • Pandas • Scikit-learn', href: 'https://github.com/Raja786000', accent: '05' },
-  { title: 'Data Explorer', text: 'SQL-powered analytics workspace.', description: 'A focused exploration tool for querying structured data, comparing segments, and finding useful patterns.', stack: 'SQL • PostgreSQL • Analytics', href: 'https://github.com/Raja786000', accent: '06' },
-];
+const projects = [movieProject];
+const showcaseProjects = [movieProject];
+const showcaseFlow = ['Movie data', 'Similarity scores', 'Top 10', 'TMDB posters'];
 
 function Reveal({ children, delay = 0, className = '' }) {
   return <motion.div className={className} initial={{ opacity: 0, y: 35 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}>{children}</motion.div>;
@@ -38,6 +70,15 @@ function Reveal({ children, delay = 0, className = '' }) {
 
 function SectionTitle({ number, children }) {
   return <div className="section-title"><span>{number}</span><h2>{children}</h2><i /></div>;
+}
+
+function MoviePreview({ compact = false }) {
+  return <div className={`movie-preview${compact ? ' movie-preview-compact' : ''}`} role="img" aria-label="Illustrative preview of a movie recommendation interface">
+    <div className="movie-preview-bar"><span>RECOMMENDER WORKSPACE</span><span>STREAMLIT APP</span></div>
+    <div className="movie-preview-selection"><div><small>SELECT A MOVIE</small><strong>Choose from the movie collection</strong><span className="movie-preview-select">Search or choose a title <ChevronDown /></span></div><span className="movie-preview-mark"><Sparkles /></span></div>
+    <div className="movie-preview-results"><div className="movie-preview-label"><span>SIMILAR MOVIES</span><span>TOP RECOMMENDATIONS</span></div><div className="movie-preview-posters">{['01', '02', '03', '04', '05'].map((number, index) => <div className={`movie-preview-poster poster-tone-${index + 1}`} key={number}><span>{number}</span><i /><small>RECOMMENDED</small></div>)}</div></div>
+    <span className="movie-preview-caption">ILLUSTRATIVE INTERFACE PREVIEW</span>
+  </div>;
 }
 
 export default function Home() {
@@ -89,6 +130,36 @@ export default function Home() {
   }, []);
 
   useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light'; window.localStorage.setItem('raja-theme', dark ? 'dark' : 'light'); }, [dark]);
+
+  useEffect(() => {
+    if (!selectedProject) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement;
+    document.body.style.overflow = 'hidden';
+    const modal = document.querySelector('.project-modal');
+    modal?.querySelector('.modal-close')?.focus();
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setSelectedProject(null);
+      if (event.key !== 'Tab' || !modal) return;
+      const focusable = [...modal.querySelectorAll('a[href], button:not([disabled])')];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+      previouslyFocused?.focus?.();
+    };
+  }, [selectedProject]);
 
   const nav = ['home','about','study','showcase','projects','contact'];
   const go = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); setMenu(false); };
@@ -152,12 +223,31 @@ export default function Home() {
 
         <section id="showcase" className="section-pad showcase-section">
           <Reveal><SectionTitle number="03">Showcase</SectionTitle></Reveal>
-          <div className="showcase-track">{showcase.map(({title,text,detail,number,icon:Icon},i)=><Reveal key={title} delay={i*.1}><motion.article className="showcase-card" whileHover={{scale:1.02}}><div className="showcase-top"><span>{number}</span><Icon /></div><div><h3>{title}</h3><p>{text}</p><p className="showcase-detail">{detail}</p></div><div className="scanline" /></motion.article></Reveal>)}</div>
+          <p className="section-intro showcase-intro">Selected projects, with a quick look at the idea and how each one works.</p>
+          <div className="showcase-project-grid">{showcaseProjects.map((project, index) => <Reveal key={project.slug} delay={index * 0.08}><article className="showcase-project-card">
+            <div className="showcase-card-preview"><MoviePreview compact /></div>
+            <div className="showcase-card-content">
+              <span className="story-index">FEATURED PROJECT / {String(index + 1).padStart(2, '0')}</span>
+              <h3>{project.title}</h3>
+              <p className="showcase-card-summary">{project.description}</p>
+              <p className="showcase-card-method">Content-based recommendations · precomputed similarity data</p>
+              <div className="showcase-mini-flow" aria-label="Movie data flows through similarity scores and top recommendations to TMDB posters">{showcaseFlow.map((step, stepIndex) => <span key={step}>{step}{stepIndex < showcaseFlow.length - 1 && <i aria-hidden="true">→</i>}</span>)}</div>
+              <div className="tech-tags showcase-tags">{project.tags.map((technology) => <span key={technology}>{technology}</span>)}</div>
+              <div className="showcase-card-actions"><a className="primary-btn" href={project.liveDemo} target="_blank" rel="noopener noreferrer">Live Demo <ArrowUpRight /></a><a className="secondary-btn" href={project.github} target="_blank" rel="noopener noreferrer"><Github /> View on GitHub <ArrowUpRight /></a><button type="button" onClick={() => setSelectedProject(project)}>Read case study <ArrowUpRight /></button></div>
+            </div>
+          </article></Reveal>)}</div>
         </section>
 
         <section id="projects" className="section-pad">
           <Reveal><SectionTitle number="04">Projects</SectionTitle></Reveal>
-          <div className="projects-list">{projects.map((project,i)=><Reveal key={project.title} delay={i*.09}><motion.button className="project-card" onClick={() => setSelectedProject(project)} whileHover={{x:8}}><div className="project-number">{project.accent}</div><div className="project-info"><span>Project</span><h3>{project.title}</h3><p>{project.text}</p></div><ArrowUpRight /><div className="project-glow" /></motion.button></Reveal>)}</div>
+          <div className="projects-list">{projects.map((project,i)=><Reveal key={project.title} delay={i*.09}><div className="project-card-wrap">
+            <motion.button className="project-card" onClick={() => setSelectedProject(project)} whileHover={{y:-5}} aria-label={`Open details for ${project.title}`}>
+              <div className={`project-thumb${project.slug === 'movie-recommender' ? ' project-thumb-movie' : ''}`}>{project.slug === 'movie-recommender' ? <MoviePreview compact /> : <><span>PROJECT {project.accent}</span><i /></>}</div>
+              <div className="project-info"><span>Project {project.accent}</span><h3>{project.title}</h3><p>{project.text}</p><div className="project-tags">{(project.tags || project.stack.split(' • ')).map((tag) => <span key={tag}>{tag}</span>)}</div></div>
+              <ArrowUpRight className="project-open-icon" />
+            </motion.button>
+            {project.slug === 'movie-recommender' && <div className="project-card-actions"><a href={project.liveDemo} target="_blank" rel="noopener noreferrer">Live Demo <ArrowUpRight /></a><a href={project.github} target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight /></a></div>}
+          </div></Reveal>)}</div>
         </section>
 
         <section id="contact" className="section-pad contact-section">
@@ -166,7 +256,32 @@ export default function Home() {
           <footer><span>© {new Date().getFullYear()} Raja Babu</span><span>Built with curiosity & code.</span></footer>
         </section>
       </div>
-      <AnimatePresence>{selectedProject && <motion.div className="project-modal-backdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={() => setSelectedProject(null)}><motion.div className="project-modal" initial={{y:24,opacity:0}} animate={{y:0,opacity:1}} exit={{y:24,opacity:0}} onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)} aria-label="Close project details"><X /></button><span className="eyebrow">Project {selectedProject.accent}</span><h2>{selectedProject.title}</h2><p>{selectedProject.description}</p><small>{selectedProject.stack}</small><a className="primary-btn" href={selectedProject.href} target={selectedProject.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">Open project <ArrowUpRight /></a></motion.div></motion.div>}</AnimatePresence>
+      <AnimatePresence>{selectedProject && <motion.div className="project-modal-backdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={() => setSelectedProject(null)}>
+        <motion.div className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" aria-describedby="project-modal-description" initial={{y:24,opacity:0}} animate={{y:0,opacity:1}} exit={{y:24,opacity:0}} onClick={(event) => event.stopPropagation()}>
+          <button className="modal-close" onClick={() => setSelectedProject(null)} aria-label="Close project details"><X /></button>
+          {selectedProject.slug === 'movie-recommender' ? <>
+            <div className="modal-preview"><MoviePreview compact /></div>
+            <span className="story-index">PROJECT {selectedProject.accent} / CONTENT-BASED RECOMMENDATION</span>
+            <h2 id="project-modal-title">{selectedProject.title}</h2>
+            <p id="project-modal-description" className="modal-summary">{selectedProject.description}</p>
+            <div className="modal-actions"><a className="primary-btn" href={selectedProject.liveDemo} target="_blank" rel="noopener noreferrer">Live Demo <ArrowUpRight /></a><a className="secondary-btn" href={selectedProject.github} target="_blank" rel="noopener noreferrer"><Github /> View on GitHub <ArrowUpRight /></a></div>
+            <div className="modal-meta"><div><span>Project Type</span><strong>{selectedProject.projectType}</strong></div><div><span>Application</span><strong>{selectedProject.application}</strong></div><div><span>Recommendation</span><strong>{selectedProject.recommendation}</strong></div><div><span>Deployment</span><strong>Streamlit Community Cloud</strong></div></div>
+            <div className="modal-story-grid">
+              <section><h3>Overview</h3><p>{selectedProject.overview}</p></section>
+              <section><h3>Problem</h3><p>{selectedProject.problem}</p></section>
+              <section><h3>Solution</h3><p>{selectedProject.solution}</p></section>
+            </div>
+            <section className="modal-section"><h3>How It Works</h3><ol className="modal-steps">{selectedProject.howItWorks.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}</ol></section>
+            <section className="modal-section"><h3>Key Features</h3><div className="tech-tags modal-tags">{selectedProject.features.map((feature) => <span key={feature}>{feature}</span>)}</div></section>
+            <section className="modal-section"><h3>Tech Stack</h3><div className="tech-tags modal-tags">{selectedProject.technologies.map((technology) => <span key={technology}>{technology}</span>)}</div></section>
+            <section className="modal-section"><h3>Development Process</h3><ol className="modal-process">{selectedProject.process.map((step, index) => <li key={step.title}><span>{String(index + 1).padStart(2, '0')}</span><strong>{step.title}</strong></li>)}</ol></section>
+            <section className="modal-section"><h3>What I Learned</h3><p>{selectedProject.learned}</p></section>
+          </> : <>
+            <span className="eyebrow">Project {selectedProject.accent}</span><h2 id="project-modal-title">{selectedProject.title}</h2><p id="project-modal-description" className="modal-summary">{selectedProject.description}</p><small>{selectedProject.stack}</small>
+            <a className="primary-btn" href={selectedProject.href} target={selectedProject.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">Open project <ArrowUpRight /></a>
+          </>}
+        </motion.div>
+      </motion.div>}</AnimatePresence>
     </main>
   );
 }
