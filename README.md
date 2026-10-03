@@ -2,6 +2,8 @@
 
 Personal portfolio of **Raja Babu**, a Computer Science and Engineering student interested in data analytics, data science, and artificial intelligence. The site brings together selected projects, a study hub, and ways to connect.
 
+![Preview of the Raja Babu portfolio homepage](public/assets/portfolio.png)
+
 ## Portfolio
 
 The portfolio is built with Next.js and includes:
