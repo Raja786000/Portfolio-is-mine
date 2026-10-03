@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useMotionValue, useScroll, useSpring } from 'framer-motion';
-import { ArrowUpRight, Github, Linkedin, Moon, Sun, Download, Code2, BarChart3, BrainCircuit, Sparkles, Menu, X, ChevronDown } from 'lucide-react';
+import { ArrowUpRight, Github, Linkedin, Moon, Sun, Download, Code2, BarChart3, BrainCircuit, Sparkles, Film, Menu, X, ChevronDown } from 'lucide-react';
 
 const studyTopics = [
   { name: 'Python', slug: 'python', icon: Code2, tag: 'Programming', summary: 'The language I use to turn ideas into useful data tools.' },
@@ -61,8 +61,34 @@ const movieProject = {
 };
 
 const projects = [movieProject];
-const showcaseProjects = [movieProject];
-const showcaseFlow = ['Movie data', 'Similarity scores', 'Top 10', 'TMDB posters'];
+const showcaseProjects = [
+  {
+    ...movieProject,
+    previewType: 'illustration',
+    description: 'Content-based movie recommendations built with Python and Streamlit.',
+    tags: ['Python', 'Pandas', 'Streamlit', 'TMDB API', 'Machine Learning']
+  },
+  {
+    title: 'Fake News Detector',
+    slug: 'fake-news-detector',
+    description: 'Classifies a news title or article as real or fake using TF-IDF and Logistic Regression.',
+    tags: ['Python', 'Flask', 'Scikit-learn', 'TF-IDF'],
+    github: 'https://github.com/Raja786000/Fake-News-Detector',
+    image: 'https://raw.githubusercontent.com/Raja786000/Fake-News-Detector/main/Result.PNG',
+    imageAlt: 'Fake News Detector result screen from the project repository',
+    imageCaption: 'Application result'
+  },
+  {
+    title: 'Construction Intelligence Hub',
+    slug: 'construction-intelligence-hub',
+    description: 'A construction-photo inspection app using prototype computer-vision checks for common defects.',
+    tags: ['Python', 'React', 'FastAPI', 'OpenCV'],
+    github: 'https://github.com/Raja786000/Ai-agent-quality-inspection',
+    image: 'https://raw.githubusercontent.com/Raja786000/Ai-agent-quality-inspection/main/sample_images/01_cracked_wall.jpg',
+    imageAlt: 'Cracked wall sample image included with the inspection project',
+    imageCaption: 'Sample inspection input'
+  }
+];
 
 function Reveal({ children, delay = 0, className = '' }) {
   return <motion.div className={className} initial={{ opacity: 0, y: 35 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}>{children}</motion.div>;
@@ -223,17 +249,20 @@ export default function Home() {
 
         <section id="showcase" className="section-pad showcase-section">
           <Reveal><SectionTitle number="03">Showcase</SectionTitle></Reveal>
-          <p className="section-intro showcase-intro">Selected projects, with a quick look at the idea and how each one works.</p>
-          <div className="showcase-project-grid">{showcaseProjects.map((project, index) => <Reveal key={project.slug} delay={index * 0.08}><article className="showcase-project-card">
-            <div className="showcase-card-preview"><MoviePreview compact /></div>
+          <p className="section-intro showcase-intro">A few selected projects I want to highlight.</p>
+          <div className="showcase-project-grid">{showcaseProjects.map((project, index) => <Reveal key={project.slug} delay={index * 0.08}><article className={`showcase-project-card ${index === 0 ? 'showcase-project-featured' : 'showcase-project-secondary'}`}>
+            <div className="showcase-card-image">
+              {project.image ? <><img src={project.image} alt={project.imageAlt} loading="lazy" /><span>{project.imageCaption}</span></> : <div className="showcase-movie-art" role="img" aria-label="Illustrative poster-style artwork for Movie Recommender System, not an application screenshot"><div className="movie-art-orbit"><Film /></div><div className="movie-art-copy"><span>CONTENT-BASED DISCOVERY</span><strong>Find your<br />next film.</strong><small>DATA · SIMILARITY · POSTERS</small></div><i /></div>}
+            </div>
             <div className="showcase-card-content">
-              <span className="story-index">FEATURED PROJECT / {String(index + 1).padStart(2, '0')}</span>
+              <span className="story-index">{index === 0 ? 'FEATURED PROJECT' : `SELECTED PROJECT / 0${index + 1}`}</span>
               <h3>{project.title}</h3>
               <p className="showcase-card-summary">{project.description}</p>
-              <p className="showcase-card-method">Content-based recommendations · precomputed similarity data</p>
-              <div className="showcase-mini-flow" aria-label="Movie data flows through similarity scores and top recommendations to TMDB posters">{showcaseFlow.map((step, stepIndex) => <span key={step}>{step}{stepIndex < showcaseFlow.length - 1 && <i aria-hidden="true">→</i>}</span>)}</div>
               <div className="tech-tags showcase-tags">{project.tags.map((technology) => <span key={technology}>{technology}</span>)}</div>
-              <div className="showcase-card-actions"><a className="primary-btn" href={project.liveDemo} target="_blank" rel="noopener noreferrer">Live Demo <ArrowUpRight /></a><a className="secondary-btn" href={project.github} target="_blank" rel="noopener noreferrer"><Github /> View on GitHub <ArrowUpRight /></a><button type="button" onClick={() => setSelectedProject(project)}>Read case study <ArrowUpRight /></button></div>
+              <div className="showcase-card-actions">
+                {project.liveDemo && <a className="primary-btn" href={project.liveDemo} target="_blank" rel="noopener noreferrer">Live Demo <ArrowUpRight /></a>}
+                <a className={project.liveDemo ? 'secondary-btn' : 'primary-btn'} href={project.github} target="_blank" rel="noopener noreferrer"><Github /> View on GitHub <ArrowUpRight /></a>
+              </div>
             </div>
           </article></Reveal>)}</div>
         </section>
