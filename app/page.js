@@ -60,7 +60,45 @@ const movieProject = {
   learned: 'This project gave me practice with recommendation-system concepts, Pandas data handling, precomputed similarity data, an interactive data application, REST API integration, secret configuration, and deploying a Python app with Streamlit.'
 };
 
-const projects = [movieProject];
+const iplProject = {
+  title: "IPL Analytics Dashboard",
+  text: "Explore IPL team, player, match, batting, and bowling trends across seasons.",
+  description:
+    "An interactive Power BI dashboard designed to analyze Indian Premier League data across multiple seasons. It provides insights into team performance, player statistics, match results, batting and bowling trends, and season-wise comparisons through interactive visualizations.",
+  stack: "Microsoft Power BI • DAX • Power Query • Excel • Data Analytics • Data Visualization",
+  tags: [
+    "Microsoft Power BI",
+    "DAX",
+    "Power Query",
+    "Excel",
+    "Data Analytics",
+    "Data Visualization",
+  ],
+  accent: "02",
+  slug: "ipl-analytics",
+  github: "https://github.com/Raja786000/PowerBi_IPL_DashBoard",
+  liveDemo:
+    "https://app.powerbi.com/view?r=eyJrIjoiY2JjMTExY2QtYTk4MS00NGVjLThiZGUtODVjNTAxNDk5NWE5IiwidCI6IjA2ODkxNTc3LTNkYmMtNGJhMi1hYjBiLTVkM2UzZTg5ZTVlYyJ9",
+  features: [
+    "IPL overview and season statistics",
+    "Team-wise performance analysis",
+    "Player profile and statistics",
+    "Match and venue analysis",
+    "Batting and bowling insights",
+    "Interactive filtering and visualizations",
+    "Season-wise performance comparisons",
+  ],
+  technologies: [
+    "Microsoft Power BI",
+    "DAX",
+    "Power Query",
+    "Excel",
+    "Data Analytics",
+    "Data Visualization",
+  ],
+};
+
+const projects = [movieProject, iplProject];
 const showcaseProjects = [
   {
     ...movieProject,
@@ -106,6 +144,8 @@ function MoviePreview({ compact = false }) {
     <span className="movie-preview-caption">ILLUSTRATIVE INTERFACE PREVIEW</span>
   </div>;
 }
+
+function IplPreview() { return <div className="ipl-preview" role="img" aria-label="Illustrative IPL analytics dashboard thumbnail with season KPIs and a team performance chart"><div className="ipl-preview-topline"><span>INDIAN PREMIER LEAGUE</span><span>POWER BI ANALYTICS</span></div><div className="ipl-preview-heading"><strong>SEASON INSIGHTS</strong><span>ALL SEASONS <i /></span></div><div className="ipl-preview-content"><div className="ipl-preview-chart" aria-hidden="true"><div className="ipl-chart-grid"><i /><i /><i /><i /></div><div className="ipl-chart-bars">{[42, 68, 51, 82, 59, 96, 73].map((height, index) => <i key={index} style={{ "--bar-height": `${height}%` }} />)}</div><span>TEAM PERFORMANCE</span></div><div className="ipl-preview-kpis"><div><small>MATCHES</small><strong>ALL</strong></div><div><small>SEASONS</small><strong>IPL</strong></div><div className="ipl-kpi-highlight"><small>INSIGHTS</small><BarChart3 /></div></div></div><div className="ipl-preview-footer"><span>TEAMS</span><span>PLAYERS</span><span>VENUES</span></div></div>; }
 
 export default function Home() {
   const [dark, setDark] = useState(() => {
@@ -269,13 +309,18 @@ export default function Home() {
 
         <section id="projects" className="section-pad">
           <Reveal><SectionTitle number="04">Projects</SectionTitle></Reveal>
-          <div className="projects-list">{projects.map((project,i)=><Reveal key={project.title} delay={i*.09}><div className="project-card-wrap">
+          <div className="projects-list">{projects.map((project,i)=><Reveal key={project.slug} delay={i*.09}><div className="project-card-wrap">
             <motion.button className="project-card" onClick={() => setSelectedProject(project)} whileHover={{y:-5}} aria-label={`Open details for ${project.title}`}>
-              <div className={`project-thumb${project.slug === 'movie-recommender' ? ' project-thumb-movie' : ''}`}>{project.slug === 'movie-recommender' ? <MoviePreview compact /> : <><span>PROJECT {project.accent}</span><i /></>}</div>
+              <div className={`project-thumb${project.slug === 'movie-recommender' ? ' project-thumb-movie' : project.slug === 'ipl-analytics' ? ' project-thumb-ipl' : ''}`}>
+                {project.slug === 'movie-recommender' ? <MoviePreview compact /> : project.slug === 'ipl-analytics' ? <IplPreview /> : <><span>PROJECT {project.accent}</span><i /></>}
+              </div>
               <div className="project-info"><span>Project {project.accent}</span><h3>{project.title}</h3><p>{project.text}</p><div className="project-tags">{(project.tags || project.stack.split(' • ')).map((tag) => <span key={tag}>{tag}</span>)}</div></div>
               <ArrowUpRight className="project-open-icon" />
             </motion.button>
-            {project.slug === 'movie-recommender' && <div className="project-card-actions"><a href={project.liveDemo} target="_blank" rel="noopener noreferrer">Live Demo <ArrowUpRight /></a><a href={project.github} target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight /></a></div>}
+            {(project.liveDemo || project.github) && <div className="project-card-actions">
+              {project.liveDemo && <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()}>Live Demo <ArrowUpRight /></a>}
+              {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()}>GitHub <ArrowUpRight /></a>}
+            </div>}
           </div></Reveal>)}</div>
         </section>
 
@@ -288,7 +333,25 @@ export default function Home() {
       <AnimatePresence>{selectedProject && <motion.div className="project-modal-backdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={() => setSelectedProject(null)}>
         <motion.div className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" aria-describedby="project-modal-description" initial={{y:24,opacity:0}} animate={{y:0,opacity:1}} exit={{y:24,opacity:0}} onClick={(event) => event.stopPropagation()}>
           <button className="modal-close" onClick={() => setSelectedProject(null)} aria-label="Close project details"><X /></button>
-          {selectedProject.slug === 'movie-recommender' ? <>
+          {selectedProject.slug === 'ipl-analytics' ? <>
+            <div className="modal-preview modal-ipl-preview"><IplPreview /></div>
+            <span className="story-index">PROJECT 02 / SPORTS ANALYTICS</span>
+            <h2 id="project-modal-title">{selectedProject.title}</h2>
+            <p id="project-modal-description" className="modal-summary">{selectedProject.description}</p>
+            <div className="modal-actions">
+              <a className="primary-btn" href={selectedProject.liveDemo} target="_blank" rel="noopener noreferrer">Live Dashboard <ArrowUpRight /></a>
+              <a className="secondary-btn" href={selectedProject.github} target="_blank" rel="noopener noreferrer"><Github /> View on GitHub <ArrowUpRight /></a>
+            </div>
+            <section className="modal-section"><h3>Dashboard Capabilities</h3><div className="tech-tags modal-tags">{selectedProject.features.map((feature) => <span key={feature}>{feature}</span>)}</div></section>
+            <section className="modal-section"><h3>Technologies and Tools</h3><div className="tech-tags modal-tags">{selectedProject.technologies.map((technology) => <span key={technology}>{technology}</span>)}</div></section>
+            <section className="modal-section">
+              <h3>Live Dashboard</h3>
+              <div className="ipl-dashboard-frame">
+                <iframe src={selectedProject.liveDemo} title="IPL Analytics Dashboard published Power BI report" allowFullScreen loading="lazy" />
+              </div>
+              <a className="primary-btn ipl-dashboard-fallback" href={selectedProject.liveDemo} target="_blank" rel="noopener noreferrer">Open Live Dashboard <ArrowUpRight /></a>
+            </section>
+          </> : selectedProject.slug === 'movie-recommender' ? <>
             <div className="modal-preview"><MoviePreview compact /></div>
             <span className="story-index">PROJECT {selectedProject.accent} / CONTENT-BASED RECOMMENDATION</span>
             <h2 id="project-modal-title">{selectedProject.title}</h2>
