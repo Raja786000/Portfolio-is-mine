@@ -374,6 +374,10 @@ main{width:100%;max-width:100%;overflow-x:clip}
 .sql-modal-learning{grid-template-columns:1fr 1fr;gap:8px 18px;margin-top:12px}
 @media(max-width:1200px){.projects-list{grid-template-columns:repeat(2,minmax(0,1fr))}.projects-list>div:nth-child(3):last-child{grid-column:1/-1;width:min(100%,calc((100% - 16px)/2));justify-self:center}}
 @media(max-width:620px){.projects-list{grid-template-columns:minmax(0,1fr)}.projects-list>div:nth-child(3):last-child{grid-column:auto;width:100%}.sql-preview{min-height:165px}.sql-preview-editor{gap:3px;padding:6px}.sql-preview-content{grid-template-columns:minmax(0,1.2fr) minmax(64px,.8fr);gap:7px}.modal-sql-preview .sql-preview{min-height:180px}.sql-modal-learning{grid-template-columns:1fr}}
+
+.section-pad:not(.hero){padding-block:88px}
+@media(max-width:1000px){.section-pad:not(.hero){padding-block:72px}}
+@media(max-width:620px){.section-pad:not(.hero){padding-block:56px}}
 .project-card{flex:1 1 auto}
 @media(max-width:850px){
 	.showcase-project-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto;gap:12px}

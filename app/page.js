@@ -507,20 +507,41 @@ export default function Home() {
       "projects",
       "contact",
     ];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id);
-      },
-      { rootMargin: "-35% 0px -55% 0px", threshold: [0.1, 0.25, 0.5] },
-    );
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+    let observer;
+    const observeSections = () => {
+      observer?.disconnect();
+      const marker = Math.round(window.innerHeight * 0.35);
+      const topMargin = Math.round(window.innerHeight * 0.3);
+      const bottomMargin = Math.round(window.innerHeight * 0.55);
+      observer = new IntersectionObserver(
+        () => {
+          const currentSection = sections.find((id) => {
+            const element = document.getElementById(id);
+            if (!element) return false;
+            const bounds = element.getBoundingClientRect();
+            return bounds.top <= marker && bounds.bottom > marker;
+          });
+          if (currentSection) {
+            setActive(currentSection);
+          }
+        },
+        {
+          rootMargin: `-${topMargin}px 0px -${bottomMargin}px 0px`,
+          threshold: 0,
+        },
+      );
+      sections.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) observer.observe(element);
+      });
+    };
+
+    observeSections();
+    window.addEventListener("resize", observeSections);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", observeSections);
+    };
   }, []);
 
   useEffect(() => {
